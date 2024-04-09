@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Conditions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('p.gif');
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid #388E3C;
+        }
+        .tab {
+            overflow: hidden;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            color: white;
+        }
+        #Home.show, #Hospital.show, #MedicineShop.show {
+            display: block;
+        }
+        #search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #search {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .condition {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .condition:hover {
+            transform: translateY(-5px);
+        }
+        .condition h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #4CAF50;
+        }
+        .condition p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="background-color: #388E3C; padding: 10px 20px; border-radius: 10px;">
+            <h1 style="margin: 0; font-family: 'Arial Black', sans-serif;">Explore Medical Conditions</h1>
+        </div>
+    </header>
+
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'Home')">Home</button>
+        <button class="tablinks" onclick="openTab(event, 'Hospital')">Hospitals</button>
+        <button class="tablinks" onclick="openTab(event, 'MedicineShop')">Medicine Shop</button>
+    </div>
+
+    <div id="Home" class="tabcontent show">
+        <div id="search-container">
+            <input type="text" id="search" placeholder="Search for a medical condition">
+        </div>
+        <div id="results"></div>
+    </div>
+
+    <div id="Hospital" class="tabcontent">
+        <h2>Hospitals</h2>
+        <p>List of hospitals goes here...</p>
+    </div>
+
+    <div id="MedicineShop" class="tabcontent">
+        <h2>Medicine Shop</h2>
+        <p>Apollo Pharmecy</p>
+        <p>NetMeds</p>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("show");
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("show");
+            evt.currentTarget.classList.add("active");
+        }
+
+        const search = document.getElementById('search');
+        const results = document.getElementById('results');
+
+        search.addEventListener('input', () => {
+            const searchTerm = search.value.trim().toLowerCase();
+            const conditions = [
+                { "name": "Headache", "symptoms": "Pain or discomfort in the head, scalp, or neck.", "treatment": "Aspirin, Acetaminophen, Ibuprofen" },
+                { "name": "Common Cold", "symptoms": "Runny or stuffy nose, sneezing, coughing, sore throat.", "treatment": "Antihistamines, Decongestants, Pain relievers" },
+                { "name": "Flu", "symptoms": "Fever, chills, muscle aches, cough, congestion, fatigue.", "treatment": "Antiviral drugs, Pain relievers, Cough medicine" },
+                { "name": "Stomach Flu", "symptoms": "Nausea, vomiting, diarrhea, abdominal pain, fever.", "treatment": "Oral rehydration solutions, Antidiarrheal medications" },
+                { "name": "Allergies", "symptoms": "Sneezing, runny or stuffy nose, itchy or watery eyes, coughing, wheezing.", "treatment": "Antihistamines, Decongestants, Nasal corticosteroids" },
+                { "name": "Asthma", "symptoms": "Shortness of breath, chest tightness, coughing, wheezing.", "treatment": "Bronchodilators, Inhaled corticosteroids, Oral corticosteroids" },
+                { "name": "Diabetes", "symptoms": "Frequent urination, increased thirst, unexplained weight loss, fatigue.", "treatment": "Insulin therapy, Oral medications, Blood sugar monitoring" },
+                { "name": "High Blood Pressure", "symptoms": "Headache, chest pain, difficulty breathing, irregular heartbeat.", "treatment": "Diuretics, ACE inhibitors, Beta-blockers" }
+            ];
+
+            results.innerHTML = '';
+
+            conditions.forEach(condition => {
+                if (condition.name.toLowerCase().includes(searchTerm) || condition.symptoms.toLowerCase().includes(searchTerm)) {
+                    const div = document.createElement('div');
+                    div.classList.add('condition');
+                    div.innerHTML = `<h2>${condition.name}</h2><p><strong>Symptoms:</strong> ${condition.symptoms}</p><p><strong>Treatment:</strong> ${condition.treatment}</p>`;
+                    results.appendChild(div);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
